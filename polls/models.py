@@ -11,8 +11,11 @@ class Question(models.Model):
     def __str__(self):
     	return self.question_text
     def was_published_recently(self):
-    	now = timezone.now()
-    	return now - datetime.timedelta(days=1) <= self.publication_date <= now
+    	return self.publication_date >= timezone.now() - datetime.timedelta(days=1)
+    was_published_recently.admin_order_field = 'publication_date'
+    was_published_recently.boolean = True
+    was_published_recently.short_description = 'Published Recently?'
+
 
 
 class Choice(models.Model):
